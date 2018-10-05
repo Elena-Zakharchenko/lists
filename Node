@@ -1,0 +1,82 @@
+#include <iostream>
+#include <string>
+
+class List
+{
+public:
+    List();
+    void push_back(int data);
+    int GetSize() {return Size;};
+    int& operator[] (const int index);
+    
+private:
+    class Node
+    {
+    public:
+        Node * pNext;
+        int data;
+        
+        Node(int data = int(), Node *pNext = nullptr)
+        {
+            this->data = data;
+            this->pNext = pNext;
+        }
+    };
+    int Size;
+    Node *head;
+};
+
+List::List()
+{
+    Size = 0;
+    head = nullptr;
+}
+
+void List::push_back(int data)
+{
+    if (head == nullptr)
+    {
+        head = new Node(data);
+    }
+    else
+    {
+        Node *current = this->head;
+        
+        while (current->pNext != nullptr)
+        {
+            current = current->pNext;
+        }
+        current->pNext = new Node(data);
+    }
+    Size++;
+}
+
+int & List::operator[] (const int index)
+{
+    int counter = 0;
+    
+    Node *current = this->head;
+    
+    while (current != nullptr)
+    {
+        if (counter == index)
+        {
+            return current->data;
+        }
+        current = current->pNext;
+        counter++;
+    }
+}
+
+
+int main()
+{
+    List lst;
+    lst.push_back(5);
+    lst.push_back(10);
+    lst.push_back(22);
+    
+    std::cout<<lst.GetSize()<<std::endl;
+    
+    return 0;
+}
